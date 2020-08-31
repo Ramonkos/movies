@@ -1,38 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
-class Pagination extends Component {
-	state = {};
-	render() {
-		return (
-			<nav aria-label='...'>
-				<ul class='pagination'>
-					{/* <li class='page-item disabled'>
-						<span class='page-link'>Previous</span>
-					</li> */}
-					<li class='page-item'>
-						<a class='page-link' href='#'>
-							1
+const Pagination = (props) => {
+	const { pageSize, itemsCount, onPageChange, currentPage } = props;
+
+	const pagesCount = itemsCount / pageSize;
+	const pages = _.range(1, pagesCount + 1);
+	if (Math.ceil(pagesCount) === 1) return null;
+
+	return (
+		<nav aria-label='...'>
+			<ul className='pagination'>
+				{pages.map((page) => (
+					<li
+						key={page}
+						className={page === currentPage ? 'page-item active' : 'page-item'}
+					>
+						<a className='page-link' onClick={() => onPageChange(page)}>
+							{page}
 						</a>
 					</li>
-					<li class='page-item active' aria-current='page'>
-						<span class='page-link'>
-							2<span class='sr-only'>(current)</span>
-						</span>
-					</li>
-					<li class='page-item'>
-						<a class='page-link' href='#'>
-							3
-						</a>
-					</li>
-					{/* <li class='page-item'>
-						<a class='page-link' href='#'>
-							Next
-						</a>
-					</li> */}
-				</ul>
-			</nav>
-		);
-	}
-}
+				))}
+			</ul>
+		</nav>
+	);
+};
+
+Pagination.propTypes = {
+	pageSize: PropTypes.number.isRequired,
+	itemsCount: PropTypes.number.isRequired,
+	onPageChange: PropTypes.func.isRequired,
+	currentPage: PropTypes.number.isRequired,
+};
 
 export default Pagination;
