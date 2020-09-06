@@ -3,10 +3,10 @@ import 'font-awesome/css/font-awesome.css';
 
 import { getMovies } from '../services/fakeMovieService';
 import { getGenres } from '../services/fakeGenreService';
-import Pagination from './common/pagination';
+import Pagination from './common/Pagination';
 import ListGroup from './common/ListGroup';
 import { paginate } from '../utils/paginate';
-import MoviesTable from '../components/moviesTable';
+import MoviesTable from './MoviesTable';
 import _ from 'lodash';
 
 class Movies extends Component {
