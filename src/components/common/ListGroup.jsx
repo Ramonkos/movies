@@ -1,8 +1,6 @@
 import React from 'react';
-import { getGenres } from '../../services/fakeGenreService';
 
 const ListGroup = (props) => {
-	// let classes = 'list-group-item';
 	const {
 		items,
 		textProperty,
@@ -11,13 +9,8 @@ const ListGroup = (props) => {
 		selectedItem,
 	} = props;
 
-	// filterGenre = () => {
-	// 	console.log('filterGenre');
-	// };
-
 	return (
 		<ul className='list-group'>
-			{/* <li className='list-group-item'>All Genres</li> */}
 			{items.map((item) => (
 				<li
 					onClick={() => onItemSelect(item)}
