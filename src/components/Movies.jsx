@@ -52,7 +52,9 @@ class Movies extends Component {
 	};
 
 	handleSort = (sortColumn) => {
-		this.setState({ sortColumn });
+		if (sortColumn.path) {
+			this.setState({ sortColumn });
+		}
 	};
 
 	render() {
