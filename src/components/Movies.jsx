@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import 'font-awesome/css/font-awesome.css';
 
-import { getMovies } from '../services/fakeMovieService';
-import { getGenres } from '../services/fakeGenreService';
+import { getMovies, deleteMovie } from '../services/movieService';
+import { getGenres } from '../services/genreService';
 import Pagination from './common/Pagination';
 import ListGroup from './common/ListGroup';
 import { paginate } from '../utils/paginate';
@@ -10,6 +10,7 @@ import MoviesTable from './MoviesTable';
 import SearchInput from './common/SearchInput';
 import _ from 'lodash';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { toast } from 'react-toastify';
 
 class Movies extends Component {
 	state = {
@@ -22,9 +23,11 @@ class Movies extends Component {
 		selectedGenre: null,
 	};
 
-	componentDidMount() {
-		const genres = [{ name: 'All Genres', _id: 0 }, ...getGenres()];
-		this.setState({ movies: getMovies(), genres });
+	async componentDidMount() {
+		const { data } = await getGenres();
+		const genres = [{ name: 'All Genres', _id: 0 }, ...data];
+		const { data: movies } = await getMovies();
+		this.setState({ movies, genres });
 	}
 
 	handlePageChange = (page) => {
@@ -35,9 +38,18 @@ class Movies extends Component {
 		this.setState({ selectedGenre: genre, currentPage: 1, searchQuery: '' });
 	};
 
-	deleteMovie = (movie) => {
-		let movies = this.state.movies.filter((film) => film._id !== movie._id);
-		this.setState({ movies: movies });
+	deleteMovie = async (movie) => {
+		const originalMovies = this.state.movies;
+		let movies = originalMovies.filter((film) => film._id !== movie._id);
+		this.setState({ movies });
+		try {
+			await deleteMovie(movie._id);
+		} catch (error) {
+			if (error.response && error.response.status === 404) {
+				toast.error('This movie has already been deleted.');
+			}
+			this.setState({ originalMovies });
+		}
 	};
 
 	checkLiked = (movie) => {
