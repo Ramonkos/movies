@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Input from '../common/Input';
 
 const SearchInput = ({ onChange, value }) => {
@@ -6,7 +6,7 @@ const SearchInput = ({ onChange, value }) => {
 		<Input
 			type='text'
 			name='query'
-			onChange={e => onChange(e.currentTarget.value)}
+			onChange={(e) => onChange(e.currentTarget.value)}
 			className='form-control my-3'
 			placeholder='Search...'
 			value={value}
