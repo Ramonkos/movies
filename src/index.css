@@ -19,3 +19,11 @@ code {
 .clickable {
 	cursor: pointer;
 }
+
+.amount-in-db {
+	margin-bottom: 0;
+}
+
+.new-movie-button {
+	margin-bottom: 20px;
+}
