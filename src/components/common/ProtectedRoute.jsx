@@ -5,9 +5,18 @@ import auth from '../../services/authService';
 const ProtectedRoute = ({ path, component: Component, render, ...rest }) => {
 	return (
 		<Route
-      {...rest}
+			{...rest}
 			render={(props) => {
-				if (!auth.getCurrentUser()) return <Redirect to='/login' />;
+				console.log(props);
+				if (!auth.getCurrentUser())
+					return (
+						<Redirect
+							to={{
+								pathname: '/login',
+								state: { from: props.location },
+							}}
+						/>
+					);
 				return Component ? <Component {...props} /> : render(props);
 			}}
 		/>
